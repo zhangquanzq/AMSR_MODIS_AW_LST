@@ -371,9 +371,9 @@ def tsharpStepwise(initialLstPath, ndviDir, regionMethodDir, cellsizeList):
         cellsizeNow, cellsizeNext = cellsizeList[i], cellsizeList[i + 1]
 
         # 判断当前分辨率级别的降尺度结果是否存在.
-        predictLstNextName = '{0}_{1}.tif'.format(predictLstStr, cellsizeNext)
-        predictLstNextPath = path.join(regionMethodDir, predictLstNextName)
-        if not path.exists(predictLstNextPath):
+        lstNextName = '{0}_{1}.tif'.format(predictLstStr, cellsizeNext)
+        lstNextPath = path.join(regionMethodDir, lstNextName)
+        if not path.exists(lstNextPath):
             # 读取当前分辨率级别需要降尺度的LST数据.
             predictLstNowName = '{0}_{1}.tif'.format(predictLstStr, cellsizeNow)
             predictLstNowPath = path.join(regionMethodDir, predictLstNowName)
@@ -386,7 +386,7 @@ def tsharpStepwise(initialLstPath, ndviDir, regionMethodDir, cellsizeList):
             ndviNextPath = path.join(path.dirname(ndviNowPath), ndviNextName)
 
             # 执行TsHARP算法.
-            tsharp(lstNowPath, ndviNowPath, ndviNextPath, predictLstNextPath, cellsizeNext)
+            tsharp(lstNowPath, ndviNowPath, ndviNextPath, lstNextPath, cellsizeNext)
 
 
 # 使用RF模型对LST进行逐级降尺度(直接降尺度时逐级降尺度的特例).
@@ -402,9 +402,9 @@ def rfStepwise(initialLstPath, ndviDir, srtmDir, regionMethodDir, cellsizeList, 
         cellsizeNow, cellsizeNext = cellsizeList[i], cellsizeList[i + 1]
 
         # 判断当前分辨率级别的降尺度结果是否存在.
-        predictLstNextName = '{0}_{1}.tif'.format(predictLstStr, cellsizeNext)
-        predictLstNextPath = path.join(regionMethodDir, predictLstNextName)
-        if not path.exists(predictLstNextPath):
+        lstNextName = '{0}_{1}.tif'.format(predictLstStr, cellsizeNext)
+        lstNextPath = path.join(regionMethodDir, lstNextName)
+        if not path.exists(lstNextPath):
             # 读取当前分辨率级别需要降尺度的LST数据.
             predictLstNowName = '{0}_{1}.tif'.format(predictLstStr, cellsizeNow)
             predictLstNowPath = path.join(regionMethodDir, predictLstNowName)
@@ -428,7 +428,7 @@ def rfStepwise(initialLstPath, ndviDir, srtmDir, regionMethodDir, cellsizeList, 
             # 执行RF算法.
             factorNowPathList = [ndviNowPath, elevNowPath, slpNowPath]
             factorNextPathList = [ndviNextPath, elevNextPath, slpNextPath]
-            rfDownscaling(lstNowPath, factorNowPathList, factorNextPathList, predictLstNextPath,
+            rfDownscaling(lstNowPath, factorNowPathList, factorNextPathList, lstNextPath,
                           cellsizeNext)
 
     # 高斯平滑最终降尺度LST.
